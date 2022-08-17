@@ -1,0 +1,10 @@
+{
+  "name": "kraken-dca",
+  "version": "1.0.0",
+  "description": "Dollar Cost Average (DCA) bot for Kraken which runs as a schedule on Lambda",
+  "author": "Luis Santos",
+  "license": "MIT",
+  "devDependencies": {
+    "serverless-python-requirements": "^5.4.0"
+  }
+}
