@@ -1,0 +1,29 @@
+org: luispsantos
+app: kraken-dca
+service: kraken-dca
+
+frameworkVersion: '3'
+
+
+provider:
+  name: aws
+  runtime: python3.8
+  timeout: 30
+  memorySize: 512
+  stage: dev
+  profile: personal
+  iam:
+    role: arn:aws:iam::212360911183:role/lambda-access
+
+functions:
+  cronHandler:
+    handler: handler.run
+    events:
+      - schedule: cron(0 10 * * ? *)
+
+plugins:
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    dockerizePip: non-linux
