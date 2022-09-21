@@ -35,7 +35,8 @@ class KrakenDCA:
         configuration file and data from Kraken.
         :return: None
         """
-        print("Hi, current configuration:")
+        user_name = self.config.api_user_name
+        print(f"Hi {user_name}, current configuration:")
         asset_pairs: Dict[str, Any] = self.ka.get_asset_pairs()
         for dca_pair in self.config.dca_pairs:
             pair: Pair = Pair.get_pair_from_kraken(
@@ -46,7 +47,7 @@ class KrakenDCA:
                 dca_pair.get("delay"),
                 pair,
                 dca_pair.get("amount"),
-                self.config.api_user_name,
+                user_name,
                 limit_factor=dca_pair.get("limit_factor", 1),
                 max_price=dca_pair.get("max_price", -1),
             )
