@@ -168,9 +168,7 @@ class Order:
         """
         decimals = 10**lot_decimals
         try:
-            order_volume = (
-                math.floor(amount / pair_price * decimals) / decimals
-            )
+            order_volume = math.floor(amount / pair_price * decimals) / decimals
             # Adjust amount to the 0.26% taker fee on Kraken
             order_volume_fee_adjusted = (
                 math.floor(order_volume / 1.0026 * decimals) / decimals

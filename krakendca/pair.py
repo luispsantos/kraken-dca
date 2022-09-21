@@ -55,9 +55,7 @@ class Pair:
         self.order_min = order_min
 
     @classmethod
-    def get_pair_from_kraken(
-        cls, ka: KrakenApi, asset_pairs: dict, pair: str
-    ) -> T:
+    def get_pair_from_kraken(cls, ka: KrakenApi, asset_pairs: dict, pair: str) -> T:
         """
         Initialize the Pair object using KrakenAPI and provided pair.
 
@@ -135,7 +133,5 @@ class Pair:
         :return: Current pair ask price.
         """
         pair_ticker_information = ka.get_pair_ticker(pair_name)
-        pair_ask_price = float(
-            pair_ticker_information.get(pair_name).get("a")[0]
-        )
+        pair_ask_price = float(pair_ticker_information.get(pair_name).get("a")[0])
         return pair_ask_price

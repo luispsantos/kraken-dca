@@ -67,16 +67,12 @@ class Config:
         try:
             # pair
             if not dca_pair.get("pair"):
-                raise ValueError(
-                    "Please provide the pair to dollar cost average."
-                )
+                raise ValueError("Please provide the pair to dollar cost average.")
 
             # delay
             delay: int = dca_pair.get("delay")
             if not delay or type(delay) is not int or delay <= 0:
-                raise ValueError(
-                    "Please set the DCA days delay as a number > 0."
-                )
+                raise ValueError("Please set the DCA days delay as a number > 0.")
             try:
                 dca_pair["amount"]: float = float(dca_pair.get("amount"))
             except TypeError:
@@ -96,8 +92,7 @@ class Config:
                     dca_pair["limit_factor"]: float = limit_factor
                 except ValueError:
                     raise ValueError(
-                        "limit_factor option must be a number "
-                        "up to 5 digits."
+                        "limit_factor option must be a number " "up to 5 digits."
                     )
 
             # max_price
