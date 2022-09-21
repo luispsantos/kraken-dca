@@ -2,8 +2,9 @@
 from unittest import mock
 
 import pytest
-from krakendca.config import Config
 from yaml.scanner import ScannerError
+
+from krakendca.config import Config
 
 
 def get_config() -> str:

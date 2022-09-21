@@ -4,6 +4,7 @@ from datetime import datetime
 import pytest
 import vcr
 from krakenapi import KrakenApi
+
 from krakendca.order import Order
 
 

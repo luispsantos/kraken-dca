@@ -3,11 +3,11 @@ import vcr
 from _pytest.capture import CaptureFixture
 from freezegun import freeze_time
 from krakenapi import KrakenApi
+from moto import mock_dynamodb
+
 from krakendca.config import Config
 from krakendca.dca import DCA
 from krakendca.krakendca import KrakenDCA
-from moto import mock_dynamodb
-
 from tests.test_dca import create_dynamodb_table
 
 

@@ -61,7 +61,8 @@ class DCA:
 
     def __str__(self) -> str:
         desc: str = (
-            f"Pair {self.pair.name}: delay: {self.delay}, amount: {self.amount}"
+            f"Pair {self.pair.name}: delay: {self.delay}"
+            f", amount: {self.amount}"
         )
         if self.limit_factor != 1:
             desc += f", limit_factor: {self.limit_factor}"
@@ -81,14 +82,18 @@ class DCA:
         self.check_account_balance()
         # Check if didn't already DCA today
         if self.count_pair_daily_orders() != 0:
-            print(f"No DCA for {self.pair.name}: Already placed an order today.")
+            print(
+                f"No DCA for {self.pair.name}: Already placed an order today."
+            )
             return
         print("Didn't DCA already today.")
         # Get current pair ask price.
         pair_ask_price = self.pair.get_pair_ask_price(self.ka, self.pair.name)
         print(f"Current {self.pair.name} ask price: {pair_ask_price}.")
         # Get limit price based on limit_factor
-        limit_price = self.get_limit_price(pair_ask_price, self.pair.pair_decimals)
+        limit_price = self.get_limit_price(
+            pair_ask_price, self.pair.pair_decimals
+        )
         # Reject DCA if limit_price greater than max_price
         if self.max_price != -1 and limit_price > self.max_price:
             print(
@@ -112,7 +117,9 @@ class DCA:
         order.save_order_dynamo(self.orders_table)
         print("Order information saved to Dynamo DB.")
 
-    def get_limit_price(self, pair_ask_price: float, pair_decimals: int) -> float:
+    def get_limit_price(
+        self, pair_ask_price: float, pair_decimals: int
+    ) -> float:
         """
         Calculates wanted limit price from current ask price and limit_factor.
 
@@ -123,7 +130,9 @@ class DCA:
         if round(self.limit_factor, 5) == 1.0:
             limit_price = pair_ask_price
         else:
-            limit_price = round(pair_ask_price * self.limit_factor, pair_decimals)
+            limit_price = round(
+                pair_ask_price * self.limit_factor, pair_decimals
+            )
             print(
                 f"Factor adjusted limit price ({self.limit_factor:.4f})"
                 f": {limit_price}."
@@ -189,24 +198,32 @@ class DCA:
         # Get current open orders.
         open_orders = self.ka.get_open_orders()
         daily_open_orders = len(
-            self.extract_pair_orders(open_orders, self.pair.name, self.pair.alt_name)
+            self.extract_pair_orders(
+                open_orders, self.pair.name, self.pair.alt_name
+            )
         )
 
         # Get daily closed orders.
-        start_day_datetime = current_utc_day_datetime() - timedelta(days=self.delay - 1)
+        start_day_datetime = current_utc_day_datetime() - timedelta(
+            days=self.delay - 1
+        )
         start_day_unix = datetime_as_utc_unix(start_day_datetime)
         closed_orders = self.ka.get_closed_orders(
             {"start": start_day_unix, "closetime": "open"}
         )
         daily_closed_orders = len(
-            self.extract_pair_orders(closed_orders, self.pair.name, self.pair.alt_name)
+            self.extract_pair_orders(
+                closed_orders, self.pair.name, self.pair.alt_name
+            )
         )
         # Sum the count of closed and daily open orders for the DCA pair.
         pair_daily_orders = daily_closed_orders + daily_open_orders
         return pair_daily_orders
 
     @staticmethod
-    def extract_pair_orders(orders: dict, pair: str, pair_alt_name: str) -> dict:
+    def extract_pair_orders(
+        orders: dict, pair: str, pair_alt_name: str
+    ) -> dict:
         """
         Filter orders passed as dictionary on specific
         pair and return the nested dictionary.

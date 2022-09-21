@@ -2,6 +2,7 @@
 import pytest
 import vcr
 from krakenapi import KrakenApi
+
 from krakendca.pair import Pair
 
 

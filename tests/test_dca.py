@@ -1,5 +1,4 @@
 """dca.py tests module."""
-import os
 from datetime import datetime
 from unittest.mock import patch
 
@@ -8,10 +7,11 @@ import pytest
 import vcr
 from freezegun import freeze_time
 from krakenapi import KrakenApi
+from moto import mock_dynamodb
+
 from krakendca.dca import DCA
 from krakendca.order import Order
 from krakendca.pair import Pair
-from moto import mock_dynamodb
 
 
 def create_dynamodb_table():
@@ -107,7 +107,9 @@ class TestDCA:
     def test_get_system_time(self):
         """Test with system time in the past."""
         with freeze_time("2012-01-13 23:10:34.069731"):
-            with vcr.use_cassette("tests/fixtures/vcr_cassettes/test_get_time.yaml"):
+            with vcr.use_cassette(
+                "tests/fixtures/vcr_cassettes/test_get_time.yaml"
+            ):
                 with pytest.raises(OSError) as e_info:
                     self.dca.get_system_time()
         error_message = (
@@ -116,9 +118,13 @@ class TestDCA:
         )
         assert error_message in str(e_info.value)
         # Test with correct system time
-        test_date = datetime.strptime("2021-04-09 20:47:40", "%Y-%m-%d %H:%M:%S")
+        test_date = datetime.strptime(
+            "2021-04-09 20:47:40", "%Y-%m-%d %H:%M:%S"
+        )
         with freeze_time(test_date):
-            with vcr.use_cassette("tests/fixtures/vcr_cassettes/test_get_time.yaml"):
+            with vcr.use_cassette(
+                "tests/fixtures/vcr_cassettes/test_get_time.yaml"
+            ):
                 date = self.dca.get_system_time()
         assert date == test_date
 
@@ -129,7 +135,9 @@ class TestDCA:
     def test_check_account_balance_insufficient(self):
         with pytest.raises(ValueError) as e_info:
             self.dca.check_account_balance()
-        assert "Insufficient funds to buy 20.0 ZEUR of XETH" in str(e_info.value)
+        assert "Insufficient funds to buy 20.0 ZEUR of XETH" in str(
+            e_info.value
+        )
 
     @vcr.use_cassette(
         "tests/fixtures/vcr_cassettes/test_check_account_balance.yaml",
@@ -143,7 +151,9 @@ class TestDCA:
         ):
             with pytest.raises(ValueError) as e_info:
                 self.dca.check_account_balance()
-        assert "Insufficient funds to buy 20.0 ZEUR of XETH" in str(e_info.value)
+        assert "Insufficient funds to buy 20.0 ZEUR of XETH" in str(
+            e_info.value
+        )
 
     @vcr.use_cassette(
         "tests/fixtures/vcr_cassettes/test_check_account_balance.yaml",
@@ -157,7 +167,9 @@ class TestDCA:
         ):
             with pytest.raises(ValueError) as e_info:
                 self.dca.check_account_balance()
-        assert "Insufficient funds to buy 20.0 ZEUR of XETH" in str(e_info.value)
+        assert "Insufficient funds to buy 20.0 ZEUR of XETH" in str(
+            e_info.value
+        )
 
     @vcr.use_cassette(
         "tests/fixtures/vcr_cassettes/test_count_pair_daily_orders.yaml",
@@ -201,7 +213,9 @@ class TestDCA:
         }
 
         # Test with existing pair order.
-        pair_orders = self.dca.extract_pair_orders(orders, "XETHZEUR", "ETHEUR")
+        pair_orders = self.dca.extract_pair_orders(
+            orders, "XETHZEUR", "ETHEUR"
+        )
         assert type(pair_orders) == dict
         assert len(pair_orders) == 1
         key = next(iter(pair_orders))
@@ -211,7 +225,9 @@ class TestDCA:
         assert type(value) == dict
 
         # Test with non-existing pair order.
-        pair_orders = self.dca.extract_pair_orders(orders, "XETHZUSD", "ETHUSD")
+        pair_orders = self.dca.extract_pair_orders(
+            orders, "XETHZUSD", "ETHUSD"
+        )
         assert type(pair_orders) == dict
         assert len(pair_orders) == 0
 
@@ -232,7 +248,9 @@ class TestDCA:
         )
         with pytest.raises(ValueError) as e_info:
             self.dca.send_buy_limit_order(order)
-        error_message = "Too low volume to buy XETH: current 0.001, " "minimum 0.005."
+        error_message = (
+            "Too low volume to buy XETH: current 0.001, " "minimum 0.005."
+        )
         assert error_message in str(e_info.value)
 
     @vcr.use_cassette(

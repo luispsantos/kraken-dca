@@ -4,6 +4,7 @@ from datetime import datetime
 import pytest
 import pytz
 from freezegun import freeze_time
+
 from krakendca.utils import (
     current_utc_datetime,
     current_utc_day_datetime,
