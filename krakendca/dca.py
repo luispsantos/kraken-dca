@@ -22,6 +22,7 @@ class DCA:
     delay: int
     pair: Pair
     amount: float
+    user_name: str
     orders_table: str
     limit_factor: float
     max_price: float
@@ -32,6 +33,7 @@ class DCA:
         delay: int,
         pair: Pair,
         amount: float,
+        user_name: str,
         limit_factor: float = 1,
         max_price: float = -1,
         orders_table: str = "kraken-dca",
@@ -43,6 +45,7 @@ class DCA:
         :param delay: DCA days delay between buy orders.
         :param pair: Pair to dollar cost average as string.
         :param amount: Amount to dollar cost average as float.
+        :param user_name: User name of account in Kraken platform.
         :param limit_factor: Price limit factor as float.
         :param max_price: Maximum price as float.
         :param orders_table: Orders save file path as String.
@@ -51,6 +54,7 @@ class DCA:
         self.delay = delay
         self.pair = pair
         self.amount = float(amount)
+        self.user_name = user_name
         self.limit_factor = float(limit_factor)
         self.max_price = float(max_price)
         self.orders_table = orders_table
@@ -100,6 +104,7 @@ class DCA:
             return
         # Create the Order object.
         order = Order.buy_limit_order(
+            self.user_name,
             current_date,
             self.pair.name,
             self.amount,
@@ -107,7 +112,6 @@ class DCA:
             self.pair.lot_decimals,
             self.pair.quote_decimals,
         )
-        globals().update(locals())
         # Send buy order to Kraken API and print information.
         self.send_buy_limit_order(order)
         # Save order information to Dynamo DB.

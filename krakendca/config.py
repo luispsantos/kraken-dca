@@ -10,6 +10,7 @@ class Config:
     Configuration object based on configuration file.
     """
 
+    user_name: str
     api_public_key: str
     api_private_key: str
     dca_pairs: list
@@ -24,6 +25,7 @@ class Config:
         try:
             with open(config_file, "r") as stream:
                 config = yaml.load(stream, Loader=yaml.SafeLoader)
+            self.api_user_name = config.get("api").get("user_name")
             self.api_public_key = config.get("api").get("public_key")
             self.api_private_key = config.get("api").get("private_key")
             self.dca_pairs = config.get("dca_pairs")
@@ -42,6 +44,8 @@ class Config:
         :return: None
         """
         try:
+            if not self.api_user_name:
+                raise ValueError("Please provide your Kraken API user name.")
             if not self.api_public_key:
                 raise ValueError("Please provide your Kraken API public key.")
             if not self.api_private_key:
