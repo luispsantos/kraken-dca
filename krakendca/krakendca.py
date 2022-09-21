@@ -46,6 +46,7 @@ class KrakenDCA:
                 dca_pair.get("delay"),
                 pair,
                 dca_pair.get("amount"),
+                self.config.api_user_name,
                 limit_factor=dca_pair.get("limit_factor", 1),
                 max_price=dca_pair.get("max_price", -1),
             )

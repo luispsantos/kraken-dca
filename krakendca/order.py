@@ -16,6 +16,7 @@ class Order:
     Kraken order encapsulation.
     """
 
+    user_name: str
     date: datetime
     pair: str
     type: str
@@ -31,6 +32,7 @@ class Order:
 
     def __init__(
         self,
+        user_name: str,
         date: datetime,
         pair: str,
         type: str,
@@ -48,6 +50,7 @@ class Order:
         (Add standard order):
         https://www.kraken.com/en-us/features/api
 
+        :param user_name: User executing the order.
         :param date: Order date as datetime.
         :param pair: Order pair.
         :param type: Buy or sell order.
@@ -59,6 +62,7 @@ class Order:
         :param pair_price: Order pair price.
         :param total_price: Total price of the order (order price + fee).
         """
+        self.user_name = user_name
         self.date = date
         self.pair = pair
         self.type = type
@@ -73,6 +77,7 @@ class Order:
     @classmethod
     def buy_limit_order(
         cls,
+        user_name: str,
         date: datetime,
         pair: str,
         amount: float,
@@ -83,6 +88,7 @@ class Order:
         """
         Create a limit order for specified dca pair and amount.
 
+        :param user_name: User executing the order.
         :param date: Order date as datetime.
         :param pair: Asset pair.
         :param amount: Amount to buy,
@@ -100,6 +106,7 @@ class Order:
         o_flags = "fciq"
         total_price = round(price + fee, quote_decimals)
         return cls(
+            user_name,
             date,
             pair,
             type,
