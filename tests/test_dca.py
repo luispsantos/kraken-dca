@@ -15,7 +15,7 @@ from krakendca.pair import Pair
 
 
 def create_dynamodb_table():
-    dynamodb = boto3.resource("dynamodb")
+    dynamodb = boto3.resource("dynamodb", region_name="us-east-1")
     dynamodb.create_table(
         TableName="kraken-dca",
         KeySchema=[{"AttributeName": "txid", "KeyType": "HASH"}],
