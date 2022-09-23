@@ -144,7 +144,7 @@ class Order:
 
         :return: None
         """
-        client = boto3.resource("dynamodb")
+        client = boto3.resource("dynamodb", region_name="us-east-1")
         table = client.Table(orders_table)
         order_json = json.dumps(self.__dict__, default=str)
         order_item = json.loads(order_json, parse_float=Decimal)
