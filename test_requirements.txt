@@ -1,0 +1,5 @@
+freezegun==1.2.2
+moto==4.0.5
+pytest-cov==3.0.0
+pytz==2022.2.1
+vcrpy==4.2.1
