@@ -10,7 +10,7 @@ def main():
     curr_directory = Path(__file__).resolve().parent
 
     # Iterate over the multiple configuration files
-    for config_file in curr_directory.glob("config*.yaml"):
+    for config_file in sorted(curr_directory.glob("config*.yaml")):
         # Read parameters from configuration file
         config = Config(config_file)
 
