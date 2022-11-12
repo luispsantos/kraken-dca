@@ -1,4 +1,3 @@
-import time
 from pathlib import Path
 
 from krakenapi import KrakenApi
@@ -22,7 +21,6 @@ def main():
         kdca = KrakenDCA(config, ka)
         kdca.initialize_pairs_dca()
         kdca.handle_pairs_dca()
-        time.sleep(2)
 
 
 def run(event, context):

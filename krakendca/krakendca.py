@@ -1,4 +1,5 @@
 """Main KrakenDCA object module."""
+import time
 from typing import Any, Dict, List
 
 from krakenapi import KrakenApi
@@ -69,3 +70,4 @@ class KrakenDCA:
         for dca in self.dcas_list:
             print(dca)
             dca.handle_dca_logic()
+            time.sleep(2)
