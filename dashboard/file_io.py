@@ -26,7 +26,7 @@ def persist_to_file(file_name: str, ttl: int = 10 * 60):
                         elif file_name.endswith(".csv"):
                             return pd.read_csv(file_name)
                         else:
-                            raise ValueError(f"Cannot process file {file_name}")
+                            raise ValueError(f"Unprocessable file {file_name}")
             except (FileNotFoundError, IOError, ValueError):
                 pass
 

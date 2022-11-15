@@ -4,8 +4,9 @@ from decimal import Decimal
 import boto3
 import pandas as pd
 import yaml
-from file_io import persist_to_file
 from krakenapi import KrakenApi
+
+from file_io import persist_to_file
 
 kraken_api = KrakenApi()
 
