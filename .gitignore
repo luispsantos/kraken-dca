@@ -5,3 +5,6 @@ __pycache__/
 .coverage
 .serverless
 node_modules
+
+orders.csv
+asset_prices.json
