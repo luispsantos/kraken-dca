@@ -1,0 +1,5 @@
+boto3==1.26.12
+dash==2.7.0
+krakenapi==1.0.0a7
+pandas==1.5.1
+PyYAML==6.0
