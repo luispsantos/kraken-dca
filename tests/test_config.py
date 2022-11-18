@@ -19,6 +19,14 @@ def get_config() -> str:
     return config
 
 
+def test_default_config_file_is_correct() -> None:
+    """Test if config.yaml has changed."""
+    correct_config: str = get_config()
+    with open("config.yaml", "r") as stream:
+        config: str = stream.read()
+    assert config == correct_config
+
+
 def assert_dca_pair(
     dca_pair: dict,
     pair: str,
