@@ -14,6 +14,10 @@ def main():
         # Read parameters from configuration file
         config = Config(config_file)
 
+        # Skip non-initialized config files
+        if config.api_user_name == "KRAKEN_USER_NAME":
+            continue
+
         # Initialize the KrakenAPI object
         ka = KrakenApi(config.api_public_key, config.api_private_key)
 
