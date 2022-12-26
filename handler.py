@@ -1,9 +1,15 @@
 from pathlib import Path
 
+import sentry_sdk
 from krakenapi import KrakenApi
 
 from krakendca.config import Config
 from krakendca.krakendca import KrakenDCA
+
+
+def setup_sentry(dsn_file="sentry_dsn.txt"):
+    sentry_dsn = Path(dsn_file).read_text()
+    sentry_sdk.init(dsn=sentry_dsn, traces_sample_rate=1.0)
 
 
 def main():
@@ -28,6 +34,7 @@ def main():
 
 
 def run(event, context):
+    setup_sentry()
     main()
 
 

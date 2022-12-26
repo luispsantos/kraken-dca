@@ -8,4 +8,6 @@ node_modules
 
 orders.csv
 asset_prices.json
+
 config_*.yaml
+sentry_dsn.txt
